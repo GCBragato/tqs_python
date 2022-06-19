@@ -1,7 +1,4 @@
 from TQS import TQSDwg
-import sys
-import os
-import csv
 
 def corrige_escalas(xScale, insAngle):
     """Corrige insAngle se xScale for negativo"""
@@ -15,10 +12,11 @@ def get_alv_blocks(dwgPath):
 
     #Abre o arquivo DWG TQS
     dwg = TQSDwg.Dwg()
+    dwg.file.Open (dwgPath)
     if dwg.file.Open (dwgPath) != 0:
         print("Não abri o arquivo [%s] para leitura" % dwgPath)
     elif dwg.file.Open (dwgPath) == 0:
-        print("Abri o arquivo [%s] para leitura" % dwgPath)
+        pass
 
     #Inicia a lista de blocos
     myBlocks = []

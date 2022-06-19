@@ -12,5 +12,5 @@ def get_project_floors(projeto):
     return nom_pavimentos
 
 if __name__ == '__main__':
-    pavimentos = get_project_floors(r"C:\TQS\CEA\Mississipi\CEA-MISSISSIPI")
+    pavimentos = get_project_floors("C:\\TQS\\CEA\\Mississipi\\CEA-MISSISSIPI")
     print(pavimentos)
