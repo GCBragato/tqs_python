@@ -1,5 +1,7 @@
 from tkinter import filedialog as fd
-from os import path
+from os import path, getcwd
+from sys import path as sys_path
+sys_path.append(getcwd())
 import get_project_floors as gpf
 import get_alv_blocks as gab
 import brgt_files_handler as bfh
