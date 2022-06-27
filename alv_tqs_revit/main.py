@@ -35,6 +35,5 @@ def main():
     portas, janelas = go.read_openings(projeto)
     bfh.write_openings(projeto_nome,portas,janelas)
 
-
 if __name__ == "__main__":
     main()
