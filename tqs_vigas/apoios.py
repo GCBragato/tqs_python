@@ -7,22 +7,18 @@ Tipos possíveis:
 5 - Pilar que passa
 """
 
-from tkinter import filedialog as fd
-import tkinter as tk
-from tkinter import ttk, Button
 from os import path, getcwd,chdir
-from glob import glob
 from sys import path as sys_path
 sys_path.append(getcwd())
 sys_path.append(getcwd() + "\\alv_tqs_revit")
+sys_path.append(getcwd() + "\\tqs_browser")
 
-def get_pav_folder():
-    """Selecione a pasta do pavimento do TQS"""
-    title = "Selecione a pasta do pavimento do projeto TQS"
-    if path.exists(r'C:\TQS'):
-        initialdir = r'C:\TQS'
-    projeto = fd.askdirectory(mustexist=True,title=title,initialdir=initialdir)
-    return path.normpath(projeto)
+from tkinter import filedialog as fd
+import tkinter as tk
+from tkinter import ttk, Button
+from glob import glob
+import treeview_create as tc
+
 
 def combobox(pavimentos):
     root = tk.Tk()
@@ -97,11 +93,14 @@ def muda_apoio(pavimento, vigas, tipo_from, tipo_to):
         arq.close()
 
 def main():
-    pavimento = get_pav_folder()
+    initialdir = ''
+    if path.exists(r'C:\TQS'):
+        initialdir = r'C:\TQS'
+    pavimento = tc.main(initialdir,True)
     #pavimento = r'C:\TQS\CEA\Mississipi\CEA-Mississipi Concreto - Torre A e B - R02\Térreo'
     vigas = get_vigas(pavimento)
     tipo_from = '4'
-    tipo_to = '1'
+    tipo_to = '5'
     muda_apoio(pavimento, vigas, tipo_from, tipo_to)
 
 if __name__ == '__main__':

@@ -1,14 +1,27 @@
+from sys import path as sys_path
+from os import getcwd
+sys_path.append(getcwd() + "\\alv_tqs_revit")
 import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showinfo
 import os
 from tkinter import filedialog as fd
 import project_folders as pf
+import get_project_floors as gpf
+import get_project_type as gpt
 
 
 class App(object):
-    def __init__(self, master, tqs_path):
+    def __init__(self, master, tqs_path, list_pavs):
         self.tqs_path = tqs_path
+        self.img_folder = tk.PhotoImage(file='./tqs_browser/resources/folder.png',
+            width=20,height=16)
+        self.img_conc = tk.PhotoImage(file='./tqs_browser/resources/conc.png',
+            width=20,height=16)
+        self.img_alvest = tk.PhotoImage(file='./tqs_browser/resources/alvest.png',
+            width=20,height=16)
+        self.img_pav = tk.PhotoImage(file='./tqs_browser/resources/pav.png',
+            width=20,height=16)
 
         # Configuração da janela e posicionamento ao centro da tela
         master.title('Árvore de Edifícios TQS')
@@ -29,7 +42,8 @@ class App(object):
         frame_top.columnconfigure(0, weight=1)
         frame_top.columnconfigure(0, weight=1)
         # Label 'Pasta Raiz'
-        ttk.Label(frame_top,text='Pasta Raiz:').grid(row=0,column=0,sticky='w',pady=5)
+        ttk.Label(frame_top,text='Pasta Raiz:').grid(row=0,column=0,sticky='w',
+            pady=5)
         # Entry 'Caminho'
         self.tqs_path_entry = ttk.Entry(frame_top, width=35)
         self.tqs_path_entry.insert(0, self.tqs_path)
@@ -53,7 +67,7 @@ class App(object):
         tree_frame = ttk.Frame(master)
         self.tree = ttk.Treeview(tree_frame,show='tree',)
         #self.tree.grid(row=0, column=0, sticky='nsew',padx=5,pady=5)
-        self.update_tree()
+        self.update_tree(list_pavs)
         ybar=tk.Scrollbar(tree_frame,orient=tk.VERTICAL,
             command=self.tree.yview)
         self.tree.configure(yscroll=ybar.set)
@@ -64,7 +78,8 @@ class App(object):
 
         # frame_bottom
         frame_bottom = ttk.Frame(master)
-        ttk.Label(frame_bottom,text='Projeto Selecionado:').pack(side='left',fill='x',expand=False)
+        ttk.Label(frame_bottom,text='Projeto Selecionado:').pack(side='left',
+            fill='x',expand=False)
         # Entry não editável de projeto selecionado
         self.selected_project_entry = ttk.Entry(frame_bottom, width=60)
         self.selected_project_entry.pack(side='right',fill='x',expand=True)
@@ -72,14 +87,35 @@ class App(object):
         frame_bottom.pack()
 
         # Botão Ok
-        close_button = ttk.Button(master,
-            text='Fechar',
-            command=master.destroy,
+        close_button = ttk.Button(master,text='Fechar',command=master.destroy,
             width=10)
         close_button.pack(side=tk.BOTTOM,padx=5,pady=5)
         
         # Variável de saída
         self.output = None
+
+
+    def project_type(self,project):
+        type = gpt.get_project_type(project)
+        if type == 0:
+            return self.img_conc
+        elif type == 1:
+            return self.img_conc
+        elif type == 2:
+            return self.img_alvest
+        return self.img_conc
+
+
+    def list_tqs_pavs(self,projects):
+        """Adiciona os pavimentos de cada projeto TQS na árvore"""
+        # Lista todos os projetos TQS
+        projects = pf.main(self.tqs_path)
+        for project in projects:
+            pavs = gpf.get_project_floors(project)
+            # Adiciona os pavimentos ao projeto
+            for pav in pavs:
+                self.tree.insert(project,0,os.path.join(project,pav),
+                text=pav,image=self.img_pav)
 
 
     def on_select(self,event):
@@ -91,7 +127,6 @@ class App(object):
                 _selected_item = self.tree.item(selected_item)['text']
                 _selected_item_name = os.path.basename(_selected_item)
                 self.selected_project_entry.insert(0,_selected_item_name)
-                #self.output = self.tree.item(selected_item)
             self.selected_project_entry.config(state='disabled')
             self.output = self.tree.selection()[0]
         except IndexError:
@@ -99,12 +134,12 @@ class App(object):
         return
 
 
-    def update_tree(self):
+    def update_tree(self,list_pavs):
         """Atualiza a árvore de edifícios"""
         self.tqs_path = self.tqs_path_entry.get()
         self.tqs_path = os.path.normpath(self.tqs_path)
 
-        # Recupera os projetos TQS
+        # Lista todos os projetos TQS
         projects = pf.main(self.tqs_path)
         
         # Limpa a árvore
@@ -112,7 +147,8 @@ class App(object):
 
         # Adiciona os projetos TQS na árvore
         # Insere a pasta raiz
-        self.tree.insert('', 'end', iid=self.tqs_path, text=self.tqs_path,open=True)
+        self.tree.insert('', 'end', iid=self.tqs_path, text=self.tqs_path,
+            open=True)
         # Insere os projetos TQS
         path_depth = len(self.tqs_path.split(os.path.sep))
         for project in projects:
@@ -129,8 +165,13 @@ class App(object):
                     self.tree.insert(os.path.dirname(current_folder),
                     'end',
                     current_folder,
-                    text=os.path.basename(current_folder))
-            self.tree.insert(os.path.dirname(project),'end',project,text=os.path.basename(project))
+                    text=os.path.basename(current_folder),
+                    image=self.img_folder)
+            proj_image = self.project_type(project)
+            self.tree.insert(os.path.dirname(project),'end',project,
+                text=os.path.basename(project),image=proj_image)
+        if list_pavs:
+            self.list_tqs_pavs(projects)
         return
 
 
@@ -144,7 +185,8 @@ class App(object):
     def find_folder(self):
         """Selecione uma pasta de projeto TQS"""
         title = "Selecione a pasta de projetos TQS"
-        projeto = fd.askdirectory(mustexist=True,title=title,initialdir=self.tqs_path)
+        projeto = fd.askdirectory(mustexist=True,title=title,
+            initialdir=self.tqs_path)
         projeto = os.path.normpath(projeto)
         self.tqs_path_entry.delete(0,tk.END)
         self.tqs_path_entry.insert(0, projeto)
@@ -152,16 +194,17 @@ class App(object):
         return
 
 
-def main():
+def main(initialdir,list_pavs):
     if os.path.exists(r'C:\TQS'):
         initialdir = r'C:\TQS'
     else:
         initialdir = ''
     root = tk.Tk()
-    app = App(root, tqs_path=initialdir)
+    app = App(root, tqs_path=initialdir,list_pavs=list_pavs)
     root.mainloop()
-    print(app.output)
+    #print(app.output)
+    return app.output
 
 
 if __name__ == '__main__':
-    main()
+    main('',True)
