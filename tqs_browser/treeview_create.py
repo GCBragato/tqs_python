@@ -14,13 +14,25 @@ import get_project_type as gpt
 class App(object):
     def __init__(self, master, tqs_path, list_pavs):
         self.tqs_path = tqs_path
-        self.img_folder = tk.PhotoImage(file='./tqs_browser/resources/folder.png',
+
+        # Ícones
+        self.img_folder = tk.PhotoImage(
+            file='./tqs_browser/resources/TQS icons/folder.png',
             width=20,height=16)
-        self.img_conc = tk.PhotoImage(file='./tqs_browser/resources/conc.png',
+        self.img_conc = tk.PhotoImage(
+            file='./tqs_browser/resources/TQS icons/conc.png',
             width=20,height=16)
-        self.img_alvest = tk.PhotoImage(file='./tqs_browser/resources/alvest.png',
+        self.img_alvest = tk.PhotoImage(
+            file='./tqs_browser/resources/TQS icons/alv.png',
             width=20,height=16)
-        self.img_pav = tk.PhotoImage(file='./tqs_browser/resources/pav.png',
+        self.img_preo = tk.PhotoImage(
+            file='./tqs_browser/resources/TQS icons/preo.png',
+            width=20,height=16)
+        self.img_parcon = tk.PhotoImage(
+            file='./tqs_browser/resources/TQS icons/parcon.png',
+            width=20,height=16)
+        self.img_pav = tk.PhotoImage(
+            file='./tqs_browser/resources/TQS icons/pav.png',
             width=20,height=16)
 
         # Configuração da janela e posicionamento ao centro da tela
@@ -100,9 +112,11 @@ class App(object):
         if type == 0:
             return self.img_conc
         elif type == 1:
-            return self.img_conc
+            return self.img_preo
         elif type == 2:
             return self.img_alvest
+        elif type == 3:
+            return self.img_parcon
         return self.img_conc
 
 
