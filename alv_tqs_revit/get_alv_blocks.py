@@ -53,5 +53,5 @@ def get_alv_blocks(dwgPath):
     return myBlocks
 
 if __name__ == '__main__':
-    dwgPath = r'C:\Users\gusta\OneDrive\repos\brgtrepos\Python\tqs_python\DesFiad1'
+    dwgPath = r'C:\TQS\VEGA\MAX CEM\VEGA Max CEM Alvenaria 2\Tipo 8 a 10\Tipo 8 a 10 Teste'
     print(get_alv_blocks(dwgPath))

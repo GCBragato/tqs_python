@@ -14,6 +14,7 @@ import get_project_type as gpt
 class App(object):
     def __init__(self, master, tqs_path, list_pavs):
         self.tqs_path = tqs_path
+        self.list_pavs = list_pavs
 
         # Ícones
         self.img_folder = tk.PhotoImage(
@@ -79,7 +80,7 @@ class App(object):
         tree_frame = ttk.Frame(master)
         self.tree = ttk.Treeview(tree_frame,show='tree',)
         #self.tree.grid(row=0, column=0, sticky='nsew',padx=5,pady=5)
-        self.update_tree(list_pavs)
+        self.update_tree()
         ybar=tk.Scrollbar(tree_frame,orient=tk.VERTICAL,
             command=self.tree.yview)
         self.tree.configure(yscroll=ybar.set)
@@ -148,10 +149,11 @@ class App(object):
         return
 
 
-    def update_tree(self,list_pavs):
+    def update_tree(self):
         """Atualiza a árvore de edifícios"""
         self.tqs_path = self.tqs_path_entry.get()
         self.tqs_path = os.path.normpath(self.tqs_path)
+        list_pavs = self.list_pavs
 
         # Lista todos os projetos TQS
         projects = pf.main(self.tqs_path)
@@ -216,7 +218,6 @@ def main(initialdir,list_pavs):
     root = tk.Tk()
     app = App(root, tqs_path=initialdir,list_pavs=list_pavs)
     root.mainloop()
-    #print(app.output)
     return app.output
 
 
