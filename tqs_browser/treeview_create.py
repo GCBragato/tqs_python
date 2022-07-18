@@ -37,6 +37,7 @@ class App(object):
             width=20,height=16)
 
         # Configuração da janela e posicionamento ao centro da tela
+        master.iconbitmap(r'C:\Backup\Icons\BRGT Icon.ico')
         master.title('Árvore de Edifícios TQS')
         win_width = 500
         win_height = 800

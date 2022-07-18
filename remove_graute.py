@@ -8,7 +8,8 @@ import treeview_create as tc
 
 def remove_graute(pavPath):
     # Nome do desenho é o nome do pavimento
-    dwgPath = path.join(pavPath,path.basename(pavPath))
+    #dwgPath = path.join(pavPath,path.basename(pavPath))
+    dwgPath = r'C:\Users\gusta\Desktop\DesFiad1'
 
     # Layers a serem filtradas
     myLayers = [241, 245]
@@ -61,7 +62,8 @@ def remove_graute(pavPath):
 
 
 def main():
-    pavPath = tc.main('',True)
+    #pavPath = tc.main('',True)
+    pavPath = ''
     remove_graute(pavPath)
 
 
