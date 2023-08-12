@@ -24,7 +24,6 @@ def tqs_filter(dirs: str) -> str:
 
 
 def main(tqs_folder: str):
-    #tqs_folder = os.path.normpath('C:\\TQS\\')
     dirs = get_all_folders(tqs_folder)
     projects = tqs_filter(dirs)
     #print(projects)
@@ -32,4 +31,5 @@ def main(tqs_folder: str):
 
 
 if __name__ == '__main__':
-    main()
+    tqs_folder = os.path.normpath('C:\\TQS\\')
+    main(tqs_folder)

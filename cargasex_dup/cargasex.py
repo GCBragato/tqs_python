@@ -33,8 +33,8 @@ def gera_saida(delta_x1, delta_x2, cargas_entrada, cargas_saida):
 # Variáveis de entrada
 delta_x1 = 5239.8142 #Delta X1
 delta_x2 = 10460.6077 #Delta X2
-cargas_entrada = open(".\CARGASEX.DAT") #Arquivo de entrada
-cargas_saida = open(".\CARGASEX - SAÍDA.DAT","w") #Arquivo de saída
+cargas_entrada = open("./cargasex_dup/CARGASEX.DAT") #Arquivo de entrada
+cargas_saida = open("./cargasex_dup/CARGASEX - SAÍDA.DAT","w") #Arquivo de saída
 ########################################################################################################
 
 #Chama a saida

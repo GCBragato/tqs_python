@@ -1,6 +1,6 @@
 from sys import path as sys_path
 from os import getcwd
-sys_path.append(getcwd() + "\\alv_tqs_revit")
+sys_path.append(getcwd() + "\\alv_tqs_revit - por andar")
 import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showinfo
@@ -37,7 +37,7 @@ class App(object):
             width=20,height=16)
 
         # Configuração da janela e posicionamento ao centro da tela
-        master.iconbitmap(r'C:\Backup\Icons\BRGT Icon.ico')
+        #master.iconbitmap(r'C:\Backup\Icons\BRGT Icon.ico')
         master.title('Árvore de Edifícios TQS')
         win_width = 500
         win_height = 800
@@ -223,4 +223,4 @@ def main(initialdir,list_pavs):
 
 
 if __name__ == '__main__':
-    main('',True)
+    main('',False)

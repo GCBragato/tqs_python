@@ -10,7 +10,7 @@ Tipos possíveis:
 from os import path, getcwd,chdir
 from sys import path as sys_path
 sys_path.append(getcwd())
-sys_path.append(getcwd() + "\\alv_tqs_revit")
+sys_path.append(getcwd() + "\\alv_tqs_revit - por andar")
 sys_path.append(getcwd() + "\\tqs_browser")
 
 from tkinter import filedialog as fd
@@ -53,6 +53,7 @@ def combobox(pavimentos):
 
     return selected_pav.get()
 
+
 def get_vigas(pavimento):
     pasta_vigas = path.join(pavimento, "VIGAS\\")
     print(pasta_vigas)
@@ -62,13 +63,14 @@ def get_vigas(pavimento):
         vigas.append(file)
     return vigas
 
+
 def muda_apoio(pavimento, vigas, tipo_from, tipo_to):
     """Muda o tipo de apoio da viga"""
     pasta_vigas = path.join(pavimento, "VIGAS\\")
     for viga in vigas:
         # Abre o arquivo
         arq = open(path.join(pasta_vigas,viga), "r+")
-        # Le o arquivo
+        # Lê o arquivo
         texto = ''
         texto = arq.read().splitlines()
         # Encontra a linha (i) dos apoios
@@ -92,6 +94,7 @@ def muda_apoio(pavimento, vigas, tipo_from, tipo_to):
         # Fecha o arquivo
         arq.close()
 
+
 def main():
     initialdir = ''
     if path.exists(r'C:\TQS'):
@@ -100,7 +103,7 @@ def main():
     #pavimento = r'C:\TQS\CEA\Mississipi\CEA-Mississipi Concreto - Torre A e B - R02\Térreo'
     vigas = get_vigas(pavimento)
     tipo_from = '4'
-    tipo_to = '5'
+    tipo_to = '1'
     muda_apoio(pavimento, vigas, tipo_from, tipo_to)
 
 if __name__ == '__main__':
